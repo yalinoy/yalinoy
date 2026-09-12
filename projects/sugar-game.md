@@ -4,70 +4,57 @@
 > **Status:** Working multiplayer application  
 > **Source:** Private
 
-Sugar Game is a 4-player multiplayer Israeli Whist game built around real-time rooms, persistent identity and live game state.
+Sugar Game is a four-player multiplayer card game built around a more general engineering problem: **keeping several clients, identities and persistent user states coherent while the live game keeps moving.**
 
-The project started as a game, but the engineering problem is broader: coordinate multiple clients, preserve identity through reconnects, keep room state coherent, and persist user/social data without making the live game loop brittle.
+The product started as a game, but the useful portfolio signal is broader — real-time coordination, reconnect handling, authentication, persistence and operating across both local-network and hosted environments.
 
-## What I built
+![Sugar Game architecture](../assets/sugar-realtime-architecture.svg)
 
-- Real-time multiplayer rooms using Socket.IO.
-- Express-based HTTP server with browser client delivery.
-- User registration and login with hashed passwords and signed stateless auth tokens.
-- PostgreSQL-backed persistent users, points, friendships and leaderboard data, with local-file fallback for development.
-- Multi-room game state and reconnect-aware identity handling.
-- Daily / weekly / all-time leaderboard flows and leaderboard trend snapshots.
-- Friend-request and social graph functionality.
-- QR-based join flow for fast second-device entry.
-- Cloud-host-aware URL handling and health diagnostics.
+## At a glance
 
-## Architecture
+| | |
+|---|---|
+| **Core problem** | Coordinate live multiplayer state without losing identity or persistence |
+| **Real-time layer** | Node.js + Socket.IO + in-memory room/game state |
+| **Persistent layer** | PostgreSQL users, points, friendships and leaderboard data |
+| **Reliability concern** | Reconnects, refreshes and degraded persistence must be visible and recoverable |
+| **Stack** | Node.js · Express · Socket.IO · PostgreSQL · browser JavaScript |
 
-```mermaid
-flowchart LR
-    C1[Browser client] <-->|Socket.IO| S[Node.js game server]
-    C2[Browser client] <-->|Socket.IO| S
-    C3[Browser client] <-->|Socket.IO| S
-    C4[Browser client] <-->|Socket.IO| S
+## What the system does
 
-    S --> G[In-memory room/game state]
-    S --> A[Auth + identity]
-    S --> P[(PostgreSQL)]
-    S --> F[Local file fallback]
-```
+Players can create or join rooms, authenticate, play live rounds, reconnect to active sessions and keep persistent account/social state across games.
 
-## Engineering decisions
+The same server supports local-network play and cloud deployment. QR-based joining reduces friction for second-device entry, while health diagnostics make backend degradation visible instead of silently failing.
 
-### 1. Separate live state from persistent identity
-Game rounds need fast in-memory coordination; accounts, points and social state need persistence. Treating those as different problems keeps the live loop simpler.
+## Key engineering decisions
 
-### 2. Reconnects are a first-class multiplayer problem
-A multiplayer game is not reliable if a refresh or network interruption destroys player identity. The system treats identity and room reclaim as part of the product, not as edge-case polish.
+### 1. Separate live state from persistent state
+Fast turn-by-turn coordination belongs in memory. User identity, social relationships, cumulative points and leaderboard history belong in persistent storage. Treating them as separate problems keeps the game loop simpler.
 
-### 3. Build for local and hosted environments
-The server can run on a local network or behind a cloud proxy, and derives the public join URL from the active request instead of hardcoding deployment-specific addresses.
+### 2. Treat reconnects as product behavior
+A multiplayer experience is not reliable if a refresh destroys the player. Identity reclaim and room recovery are part of the core session model, not optional polish.
 
-### 4. Persistence has an explicit fallback
-When PostgreSQL is available it is used for permanent state. Development can still run against a local file store, while health information makes degraded persistence visible.
+### 3. Avoid deployment-specific assumptions
+The server derives its public join URL from the active request, so the same code can run locally or behind a hosted reverse proxy without hardcoded environment URLs.
 
-## Stack
-
-`Node.js` · `Express` · `Socket.IO` · `PostgreSQL` · browser JavaScript · HTML/CSS
+### 4. Degrade explicitly
+PostgreSQL is the permanent store when available. A local-file fallback keeps development usable, while diagnostics expose when the system has dropped into a degraded persistence mode.
 
 ## What this project demonstrates
 
-- Real-time state coordination
-- Multiplayer session design
-- Authentication and identity
-- PostgreSQL persistence
-- Reconnect and failure-mode handling
-- Moving a prototype toward a deployable multi-user product
+- real-time event coordination
+- multiplayer session and room design
+- authentication and persistent identity
+- PostgreSQL-backed social/product state
+- reconnect and failure-mode handling
+- moving a prototype into a deployable multi-user system
 
 ## Engineering debt
 
-The current implementation proved the system end-to-end, but the server and browser client grew too large and monolithic. The next engineering step is decomposition into smaller game-engine, transport, persistence and UI modules with automated tests around the state machine.
+The system works end to end, but the server and browser client became too monolithic as features accumulated. The next engineering step is not “add more features”; it is to split the game engine, transport, persistence and UI boundaries and add automated state-machine tests.
 
-That debt is included here intentionally: shipping a working system matters, but so does recognizing when the architecture needs to be simplified before the next scale step.
+That trade-off is worth showing. Shipping proves the product loop. Recognizing when the structure needs decomposition proves engineering judgment.
 
 ---
 
-The production source repository remains private. This case study describes the system without publishing user data, secrets or private deployment configuration.
+The production source remains private. This case study describes the architecture and trade-offs without exposing user data, secrets or deployment configuration.
