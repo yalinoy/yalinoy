@@ -8,6 +8,12 @@ Aretu is a mobile-first personal operating system for turning long-term goals in
 
 The hard part is not task entry. It is building a system that stays useful offline, preserves a coherent history across devices, and keeps product complexity from leaking into the core domain.
 
+## Product in four screens
+
+![Aretu core screens — Today, Planning, Goals and Progress](../assets/aretu-core-screens.webp)
+
+**Today** turns the plan into execution. **Planning** limits the week to a small number of priorities. **Goals** connects work to longer-term outcomes. **Progress** turns recorded behavior into feedback for the next cycle.
+
 ![Aretu product loop](../assets/aretu-product-loop.svg)
 
 ## At a glance
