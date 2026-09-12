@@ -1,75 +1,63 @@
 # Atlas — Safety-First Research Agent
 
 > **Role:** System design, guardrails, workflow architecture and implementation  
-> **Status:** Research/paper workflow; no live trading or order placement  
+> **Status:** Research/paper workflow · no live trading · no order placement  
 > **Source:** Private
 
-Atlas is a local research agent designed around a simple constraint: **automation is only useful if unsafe actions are structurally hard to perform**.
+Atlas explores a narrow but important systems problem: **how far should an autonomous workflow go before human authority must take over?**
 
-The system explores how an agent can support disciplined equity research while preserving explicit human control, traceability and hard safety boundaries.
+It is a local research agent for disciplined U.S. equity research, built around explicit state boundaries, auditability and hard refusal paths instead of vague warnings.
 
-## What I built
+![Atlas safety flow](../assets/atlas-safety-flow.svg)
 
-- A local Python runner for repeatable research workflows.
-- Explicit operating-mode configuration with hard refusal paths for live-trading states.
-- Structured market snapshots, watchlist scoring and candidate generation from human-provided inputs.
-- Research-only trade memo generation with validation requirements for thesis, counter-thesis, invalidation, risk and benchmark comparison.
-- Human review states separated from any concept of trade approval.
-- Deep-research-pack generation that pushes the workflow toward primary-source evidence before further discussion.
-- Append-only operational and decision logs.
-- Local scheduling for repeatable research runs.
-- Read-only IBKR integration guardrails prepared as configuration and validation logic without enabling live order execution.
+## At a glance
 
-## Safety model
+| | |
+|---|---|
+| **Core problem** | Automate repeatable research without creating an accidental execution path |
+| **Key constraint** | Research assistance must never silently become trade authority |
+| **Architecture** | Local Python runner + structured config + append-only logs + human review |
+| **Safety invariant** | There is no live-order execution path in the current system |
+| **Stack** | Python · YAML · CLI workflows · scheduled execution · structured logs |
 
-```mermaid
-flowchart TD
-    I[Manual / approved inputs] --> R[Research runner]
-    R --> G{Safety gates}
-    G -->|Valid research mode| A[Analysis artifacts]
-    G -->|Live / forbidden state| X[Hard refusal]
-    A --> M[Research memo]
-    M --> H[Human review]
-    H --> P[Deep research pack]
-    P --> E[More evidence required]
+## What the system does
 
-    X -. no order path .-> Z[No execution]
-    E -. no order path .-> Z
-```
+Atlas can turn approved or manually entered research inputs into structured artifacts: market snapshots, watchlist assessments, candidate research memos, human-review records and deeper research packs.
 
-There is intentionally **no live-order execution path** in the current system.
+It can also run repeatably on a local schedule and keep operational history separate from explicitly committed research decisions.
 
-## Engineering decisions
+What it **cannot** do is just as important: the current system does not connect to a live trading environment, does not place orders and does not treat a generated candidate or reviewed memo as trade approval.
 
-### 1. Refuse unsafe states instead of documenting them
-A README warning is weak. The runner checks its operating mode and refuses configurations that violate the research-only boundary.
+## Key engineering decisions
 
-### 2. Separate operational logs from investment decisions
-A test run should not look like an investment decision. Atlas keeps technical run logs separate from explicitly committed research-decision records.
+### 1. Refuse unsafe states in code
+A warning in documentation is not a control. Atlas validates its operating mode and rejects configurations that violate the research-only boundary.
 
-### 3. Candidate ≠ recommendation ≠ approval
-The workflow uses distinct states for “research deeper,” human review and evidence gathering. This reduces semantic ambiguity in an agentic system.
+### 2. Make states semantically explicit
+**Candidate**, **research memo**, **human review** and **trade approval** are different concepts. The system keeps them separate so an agent cannot blur the meaning of progress through the workflow.
 
-### 4. Preserve human authority
-Generated artifacts can support research, but they do not silently escalate privileges. Human review is explicit and still does not grant trade approval.
+### 3. Preserve auditability
+Operational runs and investment-research decisions are recorded separately. This prevents test runs and automation noise from masquerading as investment decisions.
 
-## Stack
+### 4. Keep privilege escalation impossible by default
+The architecture prepares validation logic for future read-only brokerage integration while keeping execution privileges outside the current system entirely.
 
-`Python` · `YAML` · local CLI workflows · structured logs · scheduled execution
+## Why this project matters
 
-## What this project demonstrates
+The interesting part of Atlas is not the financial domain. It is the design pattern:
 
-- Safety-first agent design
-- Guardrails and failure-mode thinking
-- Explicit state machines and permissions
-- Auditability and append-only logs
-- Human-in-the-loop workflow design
-- Resisting the temptation to automate beyond validated boundaries
+- automation with a hard capability ceiling
+- explicit human authority
+- refusal as a first-class system behavior
+- append-only state and traceability
+- safety boundaries that survive future feature growth
+
+Those patterns transfer directly to higher-stakes agentic systems in operations, infrastructure and physical technology.
 
 ## Current status
 
-Atlas remains a research/paper system. It does not place live orders, does not contain broker credentials and is not presented as an autonomous trading system.
+Atlas remains intentionally constrained to research/paper workflows. Expanding its capabilities would require proving each new privilege boundary independently rather than enabling a broad “autonomous mode.”
 
 ---
 
-The source repository remains private. This case study intentionally focuses on architecture, safety and workflow design rather than investment strategy or private configuration.
+The source repository remains private. This public case study focuses on system design and guardrails rather than investment strategy, credentials or private configuration.
