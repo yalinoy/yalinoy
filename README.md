@@ -9,7 +9,9 @@ I build products where software, systems and real-world constraints meet — tak
 [**Aretu — Personal Operating System →**](projects/aretu.md)  
 *Release candidate · mobile · offline-first*
 
-![Aretu core product screens](assets/aretu-core-screens.webp)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/yalinoy/yalinoy/main/assets/aretu-core-screens.webp" alt="Aretu core product screens — Today, Planning, Goals and Progress" width="100%" />
+</p>
 
 Aretu turns long-term goals into weekly priorities, daily execution, review and history. The product is designed around a strict local-first invariant: ordinary use should continue even when the backend disappears.
 
