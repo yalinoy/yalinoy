@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+<title id="title">Aretu architecture</title><desc id="desc">Offline-first architecture separating UI, domain, repositories, SQLite, sync and Supabase.</desc>
+<rect width="1400" height="760" rx="32" fill="#111318"/>
+<text x="70" y="86" font-family="Inter,Arial,sans-serif" font-size="38" font-weight="700" fill="#F7F3EA">Offline-first by design</text>
+<text x="70" y="128" font-family="Inter,Arial,sans-serif" font-size="20" fill="#AEB5C2">The app works locally first. Remote sync is an optional layer beside the product, not inside every feature.</text>
+<g font-family="Inter,Arial,sans-serif">
+<rect x="90" y="205" width="1220" height="440" rx="28" fill="#171A20" stroke="#303641" stroke-width="2"/>
+<rect x="145" y="260" width="240" height="100" rx="20" fill="#253F70"/><text x="175" y="305" font-size="18" font-weight="700" fill="#BFD2F7">PRESENTATION</text><text x="175" y="336" font-size="25" font-weight="700" fill="#FFFFFF">Expo Router UI</text>
+<rect x="455" y="260" width="240" height="100" rx="20" fill="#22262D" stroke="#424A57"/><text x="485" y="305" font-size="18" font-weight="700" fill="#B9C0CC">PRODUCT LOGIC</text><text x="485" y="336" font-size="25" font-weight="700" fill="#FFFFFF">Features + domain</text>
+<rect x="765" y="260" width="240" height="100" rx="20" fill="#22262D" stroke="#424A57"/><text x="795" y="305" font-size="18" font-weight="700" fill="#B9C0CC">CONTRACTS</text><text x="795" y="336" font-size="25" font-weight="700" fill="#FFFFFF">Repositories</text>
+<rect x="1075" y="260" width="180" height="100" rx="20" fill="#3A694B"/><text x="1105" y="305" font-size="18" font-weight="700" fill="#D9F4E0">LOCAL DATA</text><text x="1105" y="336" font-size="25" font-weight="700" fill="#FFFFFF">SQLite</text>
+<g fill="#7E8CA3" font-size="32" font-weight="700"><text x="405" y="322">→</text><text x="715" y="322">→</text><text x="1025" y="322">→</text></g>
+<rect x="145" y="445" width="300" height="110" rx="20" fill="#22262D" stroke="#424A57"/><text x="175" y="486" font-size="17" font-weight="700" fill="#B9C0CC">ISOLATED PLATFORM GATEWAYS</text><text x="175" y="522" font-size="23" font-weight="700" fill="#FFFFFF">Notifications · files · auth</text>
+<rect x="555" y="445" width="300" height="110" rx="20" fill="#22262D" stroke="#424A57"/><text x="585" y="486" font-size="17" font-weight="700" fill="#B9C0CC">SEPARATE COORDINATOR</text><text x="585" y="522" font-size="23" font-weight="700" fill="#FFFFFF">Sync + reconciliation</text>
+<rect x="965" y="445" width="290" height="110" rx="20" fill="#694A2B"/><text x="995" y="486" font-size="17" font-weight="700" fill="#F5D8B5">REMOTE</text><text x="995" y="522" font-size="23" font-weight="700" fill="#FFFFFF">Supabase · PostgreSQL</text>
+<path d="M1165 360 L1165 420 L855 420 L855 500" fill="none" stroke="#7E8CA3" stroke-width="3"/><polygon points="845,490 865,490 855,510" fill="#7E8CA3"/>
+<path d="M855 500 L955 500" fill="none" stroke="#7E8CA3" stroke-width="3"/><polygon points="945,490 965,500 945,510" fill="#7E8CA3"/>
+<path d="M445 500 L545 500" fill="none" stroke="#4F5969" stroke-width="3" stroke-dasharray="8 8"/>
+<text x="145" y="616" font-size="18" fill="#AEB5C2">Design invariant:</text><text x="285" y="616" font-size="18" font-weight="700" fill="#F7F3EA">remove the remote layer and the local product still works.</text>
+</g></svg>
