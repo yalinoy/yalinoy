@@ -1,4 +1,4 @@
-# Yehli Noy
+# Yali Noy
 
 **Technical Product Builder · Systems Thinker · Electrical Engineering Student**
 
