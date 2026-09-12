@@ -11,7 +11,7 @@ The hard part is not task entry. It is building a system that stays useful offli
 ## Product in four screens
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/yalinoy/yalinoy/main/assets/aretu-core-screens-github.jpg" alt="Aretu core screens — Today, Planning, Goals and Progress" width="100%" />
+  <img src="https://raw.githubusercontent.com/yalinoy/yalinoy/main/assets/aretu-portfolio-2x2.png" alt="Aretu core screens — Today, Planning, Goals and Progress" width="100%" />
 </p>
 
 **Today** turns the plan into execution. **Planning** limits the week to a small number of priorities. **Goals** connects work to longer-term outcomes. **Progress** turns recorded behavior into feedback for the next cycle.
