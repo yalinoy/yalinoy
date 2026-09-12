@@ -9,6 +9,7 @@ I build products where software, systems and real-world constraints meet. My foc
 | Project | What it proves | Core stack |
 |---|---|---|
 | **[Aretu — Personal Operating System](projects/aretu.md)** | Offline-first architecture, sync boundaries, release discipline and product systems thinking | TypeScript · React Native · Expo · SQLite · Supabase |
+| **[HomeRun V2 — Property Lifecycle System](projects/homerun-v2.md)** | Temporal domain modeling, capability-based authorization, RLS security and atomic lifecycle operations | React · TypeScript · PostgreSQL · Supabase |
 | **[Atlas — Safety-First Research Agent](projects/atlas-ibkr-agent.md)** | Guardrails, human authority, auditability and refusal states in agentic systems | Python · YAML · local automation |
 | **[Sugar Game — Real-Time Multiplayer System](projects/sugar-game.md)** | Real-time coordination, reconnect handling, persistent identity and PostgreSQL-backed state | Node.js · Socket.IO · PostgreSQL |
 
