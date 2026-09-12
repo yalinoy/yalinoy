@@ -8,6 +8,8 @@ Aretu is a mobile-first personal operating system for turning long-term goals in
 
 The interesting engineering problem is not another task list. It is building a system that remains useful when the network disappears, preserves a coherent history across devices, and keeps product complexity from leaking into the core domain.
 
+![Aretu product loop](../assets/aretu-product-loop.svg)
+
 ## What I built
 
 - An **offline-first** React Native / Expo application where normal reads and writes happen against local SQLite.
@@ -21,21 +23,7 @@ The interesting engineering problem is not another task list. It is building a s
 
 ## Architecture
 
-```mermaid
-flowchart TD
-    UI[Expo Router screens] --> F[Feature hooks & views]
-    F --> D[Pure domain logic]
-    F --> R[Repository interfaces]
-    R --> SQL[SQLite repositories]
-    SQL --> LDB[(Local SQLite)]
-
-    LDB --> S[Sync layer]
-    S --> RG[Remote gateway]
-    RG --> SB[(Supabase / PostgreSQL)]
-
-    N[Notifications] -. isolated platform gateway .-> F
-    FS[File sharing] -. isolated platform gateway .-> F
-```
+![Aretu offline-first architecture](../assets/aretu-architecture.svg)
 
 The core design rule is deliberate: **removing the remote sync layer should still leave a working app**.
 
