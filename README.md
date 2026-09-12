@@ -2,45 +2,26 @@
 
 **Technical Product Builder · Systems Thinker · Electrical Engineering Student**
 
-I build products where software, systems and real-world constraints meet — from offline-first mobile architecture to safety-first agents and real-time multiplayer systems.
-
-My focus is not shipping code for its own sake. It is taking an ambiguous problem, reducing it to the essential system, building a working product, and making the failure modes explicit.
+I build products where software, systems and real-world constraints meet. My focus is turning ambiguous problems into working systems with explicit trade-offs, clear failure modes and enough engineering discipline to survive contact with the real world.
 
 ## Selected work
 
-### [Aretu — Personal Operating System](projects/aretu.md)
-Offline-first mobile system that turns long-term goals into weekly plans, daily execution and measurable review.
+| Project | What it proves | Core stack |
+|---|---|---|
+| **[Aretu — Personal Operating System](projects/aretu.md)** | Offline-first architecture, sync boundaries, release discipline and product systems thinking | TypeScript · React Native · Expo · SQLite · Supabase |
+| **[Atlas — Safety-First Research Agent](projects/atlas-ibkr-agent.md)** | Guardrails, human authority, auditability and refusal states in agentic systems | Python · YAML · local automation |
+| **[Sugar Game — Real-Time Multiplayer System](projects/sugar-game.md)** | Real-time coordination, reconnect handling, persistent identity and PostgreSQL-backed state | Node.js · Socket.IO · PostgreSQL |
 
-**Highlights:** local-first architecture, SQLite + Supabase sync, identity boundaries, RTL/LTR, layered testing and release verification.
+## How I build
 
-`TypeScript` · `React Native` · `Expo` · `SQLite` · `Supabase` · `PostgreSQL`
-
-### [Atlas — Safety-First Research Agent](projects/atlas-ibkr-agent.md)
-Research-agent architecture built around hard guardrails, explicit human authority and auditable state transitions.
-
-**Highlights:** safety gates, append-only logs, structured research workflows, human review and deliberate refusal of live execution states.
-
-`Python` · `YAML` · workflow automation · safety architecture
-
-### [Sugar Game — Real-Time Multiplayer System](projects/sugar-game.md)
-Four-player multiplayer card game with live rooms, persistent identity, reconnect handling and social/leaderboard features.
-
-**Highlights:** Socket.IO state coordination, authentication, PostgreSQL persistence, reconnects and multi-environment deployment.
-
-`Node.js` · `Express` · `Socket.IO` · `PostgreSQL` · `JavaScript`
-
-## How I work
-
-- **First principles:** reduce the problem before adding architecture.
-- **Product before ceremony:** a working, testable system beats a sophisticated diagram.
-- **Failure modes matter:** offline behavior, reconnects, unsafe states and release errors are part of the design.
-- **Keep boundaries explicit:** separate domain logic, infrastructure and external systems so complexity stays controllable.
-- **Iterate with evidence:** build, test on the real system, find what the abstractions missed, then tighten the design.
+- **Reduce before expanding** — simplify the problem before adding architecture.
+- **Working systems over ceremony** — a tested product beats a sophisticated diagram.
+- **Failure modes are part of the design** — offline behavior, reconnects, unsafe states and release errors are product concerns.
+- **Keep boundaries explicit** — separate domain logic, infrastructure and external systems so complexity stays controllable.
+- **Use real evidence** — build, test on the real system, find what the abstraction missed, then tighten the design.
 
 ## Current focus
 
-Building deeper capability across **electrical engineering, product systems, automation and real-world technology** — with a long-term interest in robotics, energy and physical systems.
+Building deeper capability across **electrical engineering, product systems, automation and real-world technology**, with long-term interest in robotics, energy and physical systems.
 
----
-
-Most production source repositories are intentionally private. The case studies above document the architecture, engineering decisions and trade-offs without exposing private source code, credentials or user data.
+Most production source repositories are intentionally private. The case studies above show the architecture, engineering decisions and trade-offs without exposing private source code, credentials or user data.
