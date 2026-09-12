@@ -1,63 +1,64 @@
 # Aretu — Personal Operating System
 
 > **Role:** Product architecture, system design, implementation and validation  
-> **Status:** Release candidate; real-device QA and TestFlight still pending  
+> **Status:** Release candidate · real-device QA and TestFlight still pending  
 > **Source:** Private
 
 Aretu is a mobile-first personal operating system for turning long-term goals into weekly priorities, daily execution and measurable review.
 
-The interesting engineering problem is not another task list. It is building a system that remains useful when the network disappears, preserves a coherent history across devices, and keeps product complexity from leaking into the core domain.
+The hard part is not task entry. It is building a system that stays useful offline, preserves a coherent history across devices, and keeps product complexity from leaking into the core domain.
 
 ![Aretu product loop](../assets/aretu-product-loop.svg)
 
-## What I built
+## At a glance
 
-- An **offline-first** React Native / Expo application where normal reads and writes happen against local SQLite.
-- A separate **sync layer** that can upload and reconcile history through Supabase without becoming a dependency of the local product.
-- Goal → pathway → milestone → weekly plan → task/habit execution → review flows.
-- Account-scoped profile and language preferences, Google Sign-In support and account deletion infrastructure.
-- Hebrew and English support, including RTL/LTR behavior.
-- Version-controlled PostgreSQL/Supabase schema with row-level-security checks.
-- Automated verification across formatting, linting, types, domain tests, SQLite integration tests and PostgreSQL integration tests.
-- Release checks that inspect exported bundles for configuration mistakes and accidental inclusion of sensitive or test-only code.
+| | |
+|---|---|
+| **Core problem** | Turn long-term intent into a repeatable execution loop |
+| **Product model** | Goals → weekly planning → daily execution → review → history |
+| **Architecture** | Offline-first local SQLite with an isolated sync layer |
+| **Reliability focus** | Sync boundaries, identity, bundle checks, multi-layer testing and device QA |
+| **Stack** | TypeScript · React Native · Expo · SQLite · Supabase · PostgreSQL |
+
+## What the system does
+
+Aretu connects goal-setting to actual execution. Users can structure goals, plan a week, schedule tasks and habits, execute the day, review plan-versus-actual and preserve the result as a personal history.
+
+The product is bilingual, supports RTL/LTR, includes profile and account flows, and is designed so signed-out or offline usage remains a complete experience rather than a degraded fallback.
 
 ## Architecture
 
 ![Aretu offline-first architecture](../assets/aretu-architecture.svg)
 
-The core design rule is deliberate: **removing the remote sync layer should still leave a working app**.
+The design invariant is simple: **remove the remote sync layer and the local product should still work.**
 
-## Engineering decisions
+## Key engineering decisions
 
 ### 1. Local-first instead of network-first
-A productivity system should not become unavailable because the backend is slow or unreachable. SQLite is the data source used by the application during normal operation; synchronization is a separate concern.
+Normal reads and writes happen against SQLite. Synchronization is a separate layer, so poor connectivity does not become an application-wide failure mode.
 
-### 2. Boundaries are executable, not aspirational
-The codebase separates domain logic, data interfaces, SQLite, remote services, synchronization and platform-specific integrations. Architecture tests enforce key layering rules so boundaries do not silently erode as features are added.
+### 2. Keep architecture boundaries executable
+Domain logic, repository interfaces, SQLite, remote services, sync and platform-specific integrations are separated deliberately. Architecture tests help prevent those boundaries from eroding as features grow.
 
-### 3. Release confidence is part of the product
-The project treats release engineering as an engineering problem: static checks, multiple test layers, Expo Doctor, database verification and bundle inspection all exist to catch failures that are easy to miss in a happy-path demo.
+### 3. Treat release engineering as product engineering
+The verification pipeline extends beyond unit tests: formatting, linting, strict types, domain tests, real SQLite integration tests, PostgreSQL integration tests, platform diagnostics and exported-bundle inspection all exist to catch different classes of failure.
 
-### 4. Device QA still matters
-Automated tests do not replace real hardware. Early iPhone testing found layout and interaction defects that the automated suite could not see; fixes were then backed by regression tests.
-
-## Stack
-
-`TypeScript` · `React Native` · `Expo` · `Expo Router` · `SQLite` · `Supabase` · `PostgreSQL` · `Jest`
+### 4. Use real devices to challenge abstractions
+Automated tests cannot see everything. Real iPhone QA exposed layout and interaction defects that the test suite missed; those failures were then turned into regression checks.
 
 ## What this project demonstrates
 
-- Product thinking translated into system architecture
-- Offline-first application design
-- Sync and identity boundaries
-- Database and security discipline
-- Test strategy beyond unit tests
-- Shipping discipline rather than demo-only development
+- product thinking translated into system architecture
+- offline-first mobile design
+- sync and identity boundaries
+- database/security discipline
+- layered testing and release validation
+- willingness to keep a release gate closed until physical QA is complete
 
 ## Current status
 
-The codebase is at release-candidate stage. The remaining gate is intentionally physical and operational: consolidated real-device QA, validation against the live backend configuration and the TestFlight/pilot release process.
+The codebase is at release-candidate stage. The remaining gate is operational rather than conceptual: consolidated real-device QA, validation against the live backend configuration and the TestFlight/pilot release process.
 
 ---
 
-The production source repository remains private. This case study describes the architecture and engineering decisions without publishing application source code, credentials or private configuration.
+The production source repository remains private. This case study documents the product model, architecture and engineering decisions without publishing source code, credentials or private configuration.
