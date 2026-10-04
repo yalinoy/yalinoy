@@ -2,7 +2,7 @@
 
 An online, four-player Israeli Whist game with rooms, accounts, friends and leaderboards.
 
-**My work:** Product design and full-stack implementation.
+**My work:** Product design, full-stack implementation and architecture refactor.
 
 [Back to profile](../README.md)
 
@@ -12,27 +12,83 @@ Players can create or join a room, play live rounds and recover their session af
 
 The app supports local-network play and hosted deployment.
 
-## How it works
+## At a glance
 
-| Part | Technology |
+| | |
 | --- | --- |
-| Server | Node.js and Express |
-| Real-time events | Socket.IO |
-| Accounts and social data | PostgreSQL |
-| Client | Browser JavaScript, HTML and CSS |
+| **Server** | Node.js · Express |
+| **Realtime** | Socket.IO |
+| **Persistence** | PostgreSQL with local-file development fallback |
+| **Game core** | Pure deterministic state machine |
+| **Tests** | 231 total · 174 pure-engine · 9 real-server integration |
+| **Current gap** | Lint + GitHub Actions CI |
 
-![Sugar Game architecture](../assets/sugar-realtime-architecture.svg)
+## Architecture
 
-Rooms, turns and the current game are held in memory. Accounts, points, friendships and leaderboard records are stored separately in PostgreSQL.
+The key refactor was to separate deterministic game rules from realtime orchestration and transport.
 
-Reconnect handling links a returning connection to the player's existing identity and room. The server also builds join URLs from the incoming request, so they work on a local network or behind a hosted proxy.
+```text
+Browser clients
+      ↓ Socket.IO
+Transport — server.js
+HTTP · auth · friends · leaderboards · admin
+      ↓ actions
+Orchestrator — src/server/
+rooms · seats · timers · bots · emissions · RNG
+      ↓ state + action
+Pure engine — src/game/
+applyAction(state, action) → { state, events, error? }
+```
 
-A local-file store is available for development. Health diagnostics report when the expected database storage is unavailable.
+The engine has no Express, Socket.IO, database, filesystem, timers, clock or randomness. Shuffling and timing stay in the orchestrator. The browser renders server-authoritative state instead of reimplementing game rules.
 
-## What needs work
+## Why the split matters
 
-The multiplayer app works end to end, but the server and browser client have become large files with too many responsibilities.
+Before the refactor, game rules, room lifecycle and socket handling lived together in a large server file. The system worked, but changing one concern could destabilize another.
 
-The next step is to separate game rules, rooms and socket events, authentication, storage and the UI. Automated tests for the game state transitions and multi-client sessions need to grow alongside that refactor.
+After the refactor:
+
+- the entire rules engine can run without a server or network
+- state transitions are deterministic and non-mutating
+- Socket.IO is transport rather than the rules authority
+- room lifecycle, bots and timers belong to the orchestrator
+- duplicate client-side bid/trick rules were removed
+- the wire protocol remained backward-compatible
+- `server.js` dropped from 2,631 to about 1,400 lines
+
+## Reliability and reconnects
+
+Reconnect handling links a returning connection to the player's existing identity, seat and room.
+
+The refactor surfaced a real reliability bug in solo games: refreshing could arm a stale abandonment timer that destroyed the room after the player had already reclaimed the seat. The fix gave abandonment timers explicit ownership and added both orchestrator and real Socket.IO regression coverage.
+
+A reconnect now preserves the same seat, hand, round state and score, and a stale timer cannot later remove the room.
+
+## Verification
+
+The repository currently has **231 automated tests**:
+
+- **174 pure-engine tests** for bidding, legal play, trick resolution, scoring, lifecycle and regression behavior
+- orchestrator tests using fake Socket.IO, mocked timers and deterministic RNG
+- **9 integration tests** that boot the real server on an ephemeral port and exercise websocket clients
+
+The extraction also preserved known behavioral quirks intentionally rather than silently changing gameplay during a structural refactor. Those are documented and characterized by tests.
+
+## Persistence and deployment
+
+Live room/game state remains in memory for fast coordination. Accounts, points, friendships and leaderboard data are persisted separately in PostgreSQL.
+
+The same server can run on a LAN or behind a hosted proxy, and a local-file persistence fallback keeps development usable when PostgreSQL is unavailable.
+
+## Remaining work
+
+The core game architecture is no longer the primary debt.
+
+The main remaining engineering tasks are:
+
+- add a lint script
+- add GitHub Actions CI so the 231-test suite runs from a clean checkout
+- continue decomposing non-game HTTP/account/social responsibilities from `server.js`
+- eventually split the large browser client and orchestrator further
 
 *Updated October 2026. Source code is private.*
