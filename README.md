@@ -10,7 +10,9 @@ I build working systems from ambiguous product problems — defining the domain,
 
 ## Featured project — Aretu
 
-[**Aretu — Personal Operating System →**](projects/aretu.md)  
+[**Aretu — Personal Operating System →**](projects/aretu.md)
+
+[Open Aretu web app ↗](https://aretu-dev.vercel.app)  
 *v0.10 pre-Apple release candidate · account required · offline after sign-in · device QA pending*
 
 <p align="center">
@@ -24,6 +26,9 @@ Aretu turns long-term goals into weekly priorities, daily execution, review and 
 ## Selected systems
 
 ### [HomeRun V2 — Property Lifecycle System](projects/homerun-v2.md)
+
+[Open HomeRun web app ↗](https://homerun-v2-lake.vercel.app)
+
 *V1 scope + Beta Product Pack merged and deployed · authenticated production smoke pending before official Closed Beta*
 
 A property lifecycle system built around historical truth: effective-dated ownership and rent, relationship-derived capabilities, Row Level Security, atomic domain operations, auditable finance and private document access.
