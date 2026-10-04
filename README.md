@@ -1,6 +1,6 @@
 # Yali Noy
 
-I build apps and tools, from the initial idea through development and testing. I'm starting a B.Sc. in Electrical Engineering at Tel Aviv University in October 2026, with a longer-term interest in robotics, energy and marine technology.
+I build apps and tools, from the initial idea through development and testing. I'm an Electrical Engineering student at Tel Aviv University, with a longer-term interest in robotics, energy and marine technology.
 
 Most of my recent work is on **Aretu**, a personal planning app, and **HomeRun**, a rental property management app.
 
