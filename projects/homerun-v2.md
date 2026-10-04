@@ -1,7 +1,7 @@
 # HomeRun V2 — Property Lifecycle System
 
 > **Role:** Product architecture, domain modeling and implementation  
-> **Status:** Active development · functional V1 scope through finance, maintenance, documents, inspections and Action Center implemented · beta hardening next  
+> **Status:** V1 scope + Beta Product Pack merged and deployed · authenticated production smoke pending · official Closed Beta not started\
 > **Source:** Private
 
 HomeRun V2 is a property lifecycle management platform for residential rental properties — a system of record for the life of a property from acquisition to sale.
@@ -9,6 +9,8 @@ HomeRun V2 is a property lifecycle management platform for residential rental pr
 The hard part is not CRUD. It is preserving **historical truth** across years while different people gain and lose different kinds of access, money changes hands, maintenance work becomes financial history and documents remain visible only to the right people.
 
 A property can change owners without changing managers. A tenant can leave without erasing the lease they were part of. Rent can change without rewriting what was true last month. A maintenance ticket can become an expense without double-counting. A former tenant, current tenant, co-owner and delegated manager can all need different views of the same asset.
+
+*Status reviewed: 4 October 2026; latest recorded hosted verification: 3 October 2026.*
 
 ## At a glance
 
@@ -21,7 +23,7 @@ A property can change owners without changing managers. A tenant can leave witho
 | **Historical model** | Effective-dated records + append/supersede semantics |
 | **Implemented domains** | Identity/access · property lifecycle · leases/tenants · finance · maintenance · documents · inspections · Action Center |
 | **Reliability focus** | Atomic operations · adversarial allow/deny tests · schema reproducibility · storage boundary checks |
-| **Next phase** | Beta hardening with real users and real data |
+| **Current gate** | Authenticated production smoke and invitation-day revalidation before the official beta cohort |
 
 ## Product model
 
@@ -106,6 +108,22 @@ They should not be collapsed into one global `user.role`.
 - derived Action Center items for expiring guarantees, overdue rent, maintenance approvals and document attention
 - dismiss/snooze state keyed to the underlying domain state so stale alerts naturally return when facts change
 
+## Beta Product Pack — implemented
+
+- **Review-first Smart Import:** purchase and rental contracts become editable proposals before canonical property or lease creation. Extraction runs in the browser; the source document is retained through the existing private document flow.
+- **Lease Renewal Actions:** expiry reminders lead to renewal, end or defer decisions while preserving predecessor history.
+- **Document expiry and replacement:** warnings derive from canonical dates; replacing a document preserves its historical record.
+- **Structured maintenance intake:** tenant reports and authorized photos converge on one ticket even when an attachment needs a retry.
+- **Share links:** lightweight WhatsApp/native-share entry points return users through normal authentication and grant no additional access.
+- **Finance Privacy Mode:** owner-side financial values can be masked without changing stored amounts, calculations or authorization.
+- **Onboarding:** persona guidance and address-first prefill simplify entry without changing permissions or creating a separate property model.
+
+## Recorded verification
+
+The final product-pack stack records **1,074 application tests, 2,803 database/policy assertions and 130 passing browser tests across desktop/mobile and Hebrew/English**; two browser cases were intentionally skipped. These are recorded stack results, not a fresh run performed for this portfolio update.
+
+The final three implementation PRs passed all three CI jobs before merging. The 3 October verification records the production deployment ready and hosted migration parity at **48/48**. Authenticated production smoke is still an explicit release gate.
+
 ## Engineering decisions
 
 ### 1. History is a first-class product requirement
@@ -172,9 +190,13 @@ The import boundary is enforced rather than merely documented: provider-specific
 
 ## Current status
 
-The functional V1 scope now covers the property lifecycle through finance, maintenance, private documents, inspections and the Action Center. The next step is **Beta Hardening**: full security/accessibility review, responsive and RTL QA, end-to-end core journeys, observability, backup/restore validation and closed-beta use with real landlords.
+The functional V1 scope, engineering hardening and all eight Beta Product Pack slices are merged. The final implementation stack was deployed and its hosted configuration rechecked on 3 October 2026.
 
-This is deliberately presented as an **in-progress system**, not a finished production property-management product.
+**The official Closed Beta has not started.** The remaining gate is a recorded authenticated production smoke: sign-in and deep-link return, document upload/download, draft-inspection privacy, historical access and browser checks. External invitations also depend on the documented hosting-plan decision.
+
+After those gates close, the target is a small cohort of **3–8 landlords** and a full month with **zero data-integrity or access incidents**. That is an acceptance criterion, not an achieved usage metric.
+
+HomeRun records financial history; money movement, wallets, payouts and full accounting remain outside this release.
 
 ---
 
