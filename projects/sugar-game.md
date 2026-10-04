@@ -21,7 +21,7 @@ The app supports local-network play and hosted deployment.
 | **Persistence** | PostgreSQL with local-file development fallback |
 | **Game core** | Pure deterministic state machine |
 | **Tests** | 231 total · 174 pure-engine · 9 real-server integration |
-| **Current gap** | Lint + GitHub Actions CI |
+| **Quality gate** | ESLint + GitHub Actions CI on Node 20 |
 
 ## Architecture
 
@@ -72,6 +72,8 @@ The repository currently has **231 automated tests**:
 - orchestrator tests using fake Socket.IO, mocked timers and deterministic RNG
 - **9 integration tests** that boot the real server on an ephemeral port and exercise websocket clients
 
+The local quality gate is `npm run verify`: ESLint followed by the complete test suite. GitHub Actions runs the same checks from a clean `npm ci` checkout on Node 20 for pushes to `main` and pull requests.
+
 The extraction also preserved known behavioral quirks intentionally rather than silently changing gameplay during a structural refactor. Those are documented and characterized by tests.
 
 ## Persistence and deployment
@@ -82,13 +84,10 @@ The same server can run on a LAN or behind a hosted proxy, and a local-file pers
 
 ## Remaining work
 
-The core game architecture is no longer the primary debt.
+The core game architecture and automated quality gate are in place. The remaining debt is narrower:
 
-The main remaining engineering tasks are:
-
-- add a lint script
-- add GitHub Actions CI so the 231-test suite runs from a clean checkout
 - continue decomposing non-game HTTP/account/social responsibilities from `server.js`
 - eventually split the large browser client and orchestrator further
+- in-progress games are intentionally in-memory only, so a server restart ends the active game
 
 *Updated October 2026. Source code is private.*
