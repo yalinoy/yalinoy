@@ -4,6 +4,8 @@
 > **Status:** v0.10 pre-Apple release candidate · entry-flow and backend hardening merged · consolidated device QA and TestFlight pending\
 > **Source:** Private
 
+[Open Aretu web app ↗](https://aretu-dev.vercel.app)
+
 Aretu is a mobile-first personal operating system for turning long-term goals into weekly priorities, daily execution and measurable review.
 
 The hard part is not task entry. It is building a system that stays useful offline, preserves a coherent history across devices, and keeps product complexity from leaking into the core domain.
