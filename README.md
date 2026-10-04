@@ -46,9 +46,11 @@ Python · Streamlit · YAML
 
 ## Sugar Game
 
-An online, four-player Israeli Whist game with rooms, accounts, friends and leaderboards. It handles reconnects so players can recover their session after refreshing or losing their connection.
+An online, four-player Israeli Whist game with rooms, accounts, friends and leaderboards. Its game rules now run in a pure deterministic state machine, separated from Socket.IO transport, room lifecycle, bots and persistence.
 
-**Status:** Working multiplayer app. The server and client need refactoring, along with more automated tests for the game rules.
+The refactor added **231 automated tests** — including 174 pure-engine tests and 9 real-server websocket integration tests — and hardened reconnect behavior so a player can refresh and reclaim the same seat, hand and game state without a stale room-abandonment timer killing the session.
+
+**Status:** Core game architecture refactored and verified locally. Lint and GitHub Actions CI are the remaining quality-gate work.
 
 [About the project](projects/sugar-game.md)
 
