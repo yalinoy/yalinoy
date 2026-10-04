@@ -4,6 +4,8 @@
 > **Status:** V1 scope + Beta Product Pack merged and deployed · authenticated production smoke pending · official Closed Beta not started\
 > **Source:** Private
 
+[Open HomeRun web app ↗](https://homerun-v2-lake.vercel.app)
+
 HomeRun V2 is a property lifecycle management platform for residential rental properties — a system of record for the life of a property from acquisition to sale.
 
 The hard part is not CRUD. It is preserving **historical truth** across years while different people gain and lose different kinds of access, money changes hands, maintenance work becomes financial history and documents remain visible only to the right people.
