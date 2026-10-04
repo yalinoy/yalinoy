@@ -1,93 +1,39 @@
-# Atlas — Safety-First Research System
+# Atlas
 
-> **Role:** System design, guardrails, workflow architecture and implementation  
-> **Status:** Research/paper workflow · CLI + read-only dashboard · no live trading or order placement  
-> **Source:** Private
+A Python research tool for U.S. stocks, with a command-line workflow and a read-only Streamlit dashboard.
 
-Atlas explores a narrow but important systems problem: **how far should an automated workflow go before human authority must take over?**
+**My work:** System design, research workflow, safety checks and implementation.
 
-It is a research system for disciplined U.S. equity workflows, built around explicit state boundaries, evidence gates, auditability and hard refusal paths instead of vague warnings.
+[Back to profile](../README.md)
 
-![Atlas safety flow](../assets/atlas-safety-flow.svg)
+## What it does
 
-## At a glance
+Atlas takes market snapshots, watchlists and research inputs and produces reports, candidate memos and supporting evidence for review. The dashboard shows those outputs alongside data gaps and workflow status.
 
-| | |
-|---|---|
-| **Core problem** | Automate repeatable research without creating an accidental execution path |
-| **Key constraint** | Research assistance must never silently become trade authority |
-| **Interfaces** | Local CLI + read-only Streamlit dashboard |
-| **Architecture** | Python workflow + structured config + evidence gates + append-only artifacts + human review |
-| **Safety invariant** | There is no live-order execution path in the current system |
-| **Stack** | Python · YAML · Streamlit · scheduled/local workflows · structured logs |
+The current system is limited to research and paper workflows. It does not place orders or connect to a live trading account.
 
-## What the system does
+Python · YAML · Streamlit
 
-Atlas turns approved or controlled inputs into structured research artifacts: market snapshots, watchlist assessments, candidate research memos, readiness diagnostics, human-review records and deeper evidence packs.
+![Atlas research workflow](../assets/atlas-safety-flow.svg)
 
-It also includes controlled market-data preparation and diagnostics designed to make missing coverage, provider failures and incomplete evidence visible rather than silently converting them into apparently valid research state.
+## Handling data and review
 
-A read-only Streamlit dashboard exposes the system's research artifacts and readiness state without granting execution authority.
+Missing prices, incomplete coverage and parsing errors are reported explicitly. Data preparation and import have separate checks, so a failed provider request doesn't quietly become a valid input.
 
-What Atlas **cannot** do is just as important: the current system does not place live orders, does not contain broker credentials and does not treat a generated candidate, reviewed memo or dashboard state as trade approval.
+Research candidates, completed memos and human review are separate states. A memo needs sections such as the counter-thesis, invalidation conditions and risk. Recording a review doesn't authorize a trade.
 
-## Safety model
+Operational logs are kept separate from research decisions. That makes it easier to tell a scheduled or test run from an analysis someone deliberately saved.
 
-```mermaid
-flowchart LR
-    I[Approved / controlled inputs] --> V[Validation + evidence gates]
-    V -->|valid research state| R[Research workflow]
-    V -->|forbidden / incomplete| X[Hard refusal]
-    R --> A[Research artifacts]
-    A --> M[Candidate memo]
-    M --> H[Human review]
-    H --> P[Evidence pack]
-    P --> D[Read-only dashboard]
+## Implementation
 
-    X -. no execution path .-> Z[No order]
-    D -. no execution path .-> Z
-```
+The command-line runner handles research generation, input validation and diagnostics. Reports, memos, evidence packs and review records are stored as files and append-only logs. The Streamlit dashboard reads those records.
 
-## Key engineering decisions
+Configuration checks reject unsupported operating modes. There is no order-placement code path to enable through a setting. Any future brokerage integration would need a separate implementation and review.
 
-### 1. Refuse unsafe states in code
-A warning in documentation is not a control. Atlas validates its operating mode and evidence state and rejects configurations that violate the research-only boundary.
+Automated tests cover safety checks, required evidence, separation of generated outputs, research workflows and synchronization. A Render deployment configuration is included for the dashboard; this page does not link to a running public demo.
 
-### 2. Make states semantically explicit
-**Candidate**, **memo**, **evidence readiness**, **human review** and **execution authority** are different concepts. The system keeps them separate so progress through research cannot silently acquire more privilege.
+## What needs work
 
-### 3. Treat incomplete data as a state, not an inconvenience
-Controlled ingestion and provider diagnostics expose gaps and parsing failures explicitly. The system prefers an honest blocked state over a complete-looking artifact built on incomplete evidence.
+Several Python modules and dashboard files have grown too large. The next step is to split them into smaller modules, standardize the linting, type-checking and test commands, and keep generated runtime files out of the source tree.
 
-### 4. Preserve auditability
-Operational runs and investment-research decisions are recorded separately. This prevents test runs and automation noise from masquerading as investment decisions.
-
-### 5. Keep privilege escalation impossible by default
-Future read-only brokerage integration must prove its own boundary. Execution privileges remain outside the current architecture rather than being disabled behind a configuration flag.
-
-## Engineering signal
-
-The repository includes a broad automated test suite around safety, activation criteria, evidence maturity, artifact isolation, research-agent flows and synchronization behavior. It also includes a deployable read-only Streamlit dashboard shell.
-
-The main remaining engineering debt is structural: several Python and dashboard modules have grown too large. The next step is decomposition and a unified Python quality gate — not more product scope.
-
-## Why this project matters
-
-The interesting part of Atlas is not the financial domain. It is the design pattern:
-
-- automation with a hard capability ceiling
-- explicit human authority
-- refusal as a first-class system behavior
-- controlled data ingestion and evidence readiness
-- append-only state and traceability
-- safety boundaries that survive future feature growth
-
-Those patterns transfer directly to higher-stakes agentic systems in operations, infrastructure and physical technology.
-
-## Current status
-
-Atlas remains intentionally constrained to research/paper workflows. The next valuable work is architectural cleanup: split oversized modules, standardize packaging/lint/type/test tooling and keep generated runtime artifacts out of the code surface.
-
----
-
-The source repository remains private. This public case study focuses on system design and guardrails rather than investment strategy, credentials or private configuration.
+*Updated October 2026. Source code is private.*

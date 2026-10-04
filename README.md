@@ -1,67 +1,65 @@
 # Yali Noy
 
-**Technical Product Builder · Product Systems · Electrical Engineering**
+I build apps and tools, from the initial idea through development and testing. I'm starting a B.Sc. in Electrical Engineering at Tel Aviv University in October 2026, with a longer-term interest in robotics, energy and marine technology.
 
-I build working systems from ambiguous product problems — defining the domain, designing the architecture, shipping the product and testing the failure modes.
+Most of my recent work is on **Aretu**, a personal planning app, and **HomeRun**, a rental property management app.
 
-*Portfolio status reviewed: 4 October 2026.*
+## Aretu
 
-**Current focus:** offline-first mobile · property lifecycle & security · safety-first automation · real-time systems
+A mobile app that brings goals, habits, tasks and weekly planning together. You can plan the week, see what needs doing today, and look back at what you actually completed.
 
-## Featured project — Aretu
-
-[**Aretu — Personal Operating System →**](projects/aretu.md)
-
-[Open Aretu web app ↗](https://aretu-dev.vercel.app)  
-*v0.10 pre-Apple release candidate · account required · offline after sign-in · device QA pending*
+The app uses SQLite on the device and syncs through Supabase. After signing in, everyday use works offline. It supports Hebrew and English.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/yalinoy/yalinoy/main/assets/aretu-portfolio-2x2.png" alt="Aretu core product screens — Today, Planning, Goals and Progress" width="100%" />
+  <img src="https://raw.githubusercontent.com/yalinoy/yalinoy/main/assets/aretu-portfolio-2x2.png" alt="Aretu: Today, Planning, Goals and Progress screens" width="100%" />
 </p>
 
-Aretu turns long-term goals into weekly priorities, daily execution, review and history. Its core engineering constraint is strict local-first behavior: after a successful sign-in, ordinary reads and writes remain local through network outages.
+**Status:** Preparing v0.10 for an iPhone pilot. Full device testing and TestFlight distribution are still ahead.
 
-**Signal:** SQLite-first mobile architecture · isolated Supabase sync · identity · bilingual RTL/LTR · multi-layer testing · bundle/release validation · account isolation · notification recovery
+[Open web app](https://aretu-dev.vercel.app) · [About the project](projects/aretu.md)
 
-## Selected systems
+React Native · Expo · TypeScript · SQLite · Supabase
 
-### [HomeRun V2 — Property Lifecycle System](projects/homerun-v2.md)
+## HomeRun
 
-[Open HomeRun web app ↗](https://homerun-v2-lake.vercel.app)
+A web app for managing rental properties: ownership, leases, rent records, maintenance, documents and inspections.
 
-*V1 scope + Beta Product Pack merged and deployed · authenticated production smoke pending before official Closed Beta*
+A lot of the work is in handling changes over time. When a tenant leaves, rent changes or a property is sold, the old records need to stay accurate and each person should only see what they're allowed to access.
 
-A property lifecycle system built around historical truth: effective-dated ownership and rent, relationship-derived capabilities, Row Level Security, atomic domain operations, auditable finance and private document access.
+Recent additions include contract import, lease-renewal reminders, document expiry, maintenance photos, share links and an option to hide financial amounts on screen.
 
-Recent additions: review-first contract import, lease-renewal actions, document-expiry reminders, structured maintenance intake, permission-respecting share links and Finance Privacy Mode.
+**Status:** The beta features are deployed. Final checks with signed-in users are still required before the closed beta starts.
 
-`React` · `TypeScript` · `PostgreSQL` · `Supabase`
+[Open web app](https://homerun-v2-lake.vercel.app) · [About the project](projects/homerun-v2.md)
 
-### [Atlas — Safety-First Research Agent](projects/atlas-ibkr-agent.md)
-*Research/paper workflow · CLI + read-only dashboard · no live execution path*
+React · TypeScript · PostgreSQL · Supabase
 
-An agentic research workflow built around explicit authority boundaries: hard refusal states, auditable artifacts, human review and a capability ceiling that prevents research from silently becoming execution permission.
+## Atlas
 
-`Python` · `YAML` · `Streamlit`
+A Python tool for researching U.S. stocks. It prepares research reports, checks for missing data and keeps a record of the analysis and human review. A Streamlit dashboard lets me inspect the results.
 
-### [Sugar Game — Real-Time Multiplayer System](projects/sugar-game.md)
-*Working multiplayer application · state-machine refactor next*
+**Status:** Research and paper workflows only. It does not place trades. The next development task is to break up the larger modules and simplify testing and maintenance.
 
-A four-player real-time card game that separates fast in-memory room state from persistent identity, points, friendships and leaderboards, with reconnect-aware session handling across local and hosted environments.
+[About the project](projects/atlas-ibkr-agent.md)
 
-`Node.js` · `Socket.IO` · `PostgreSQL`
+Python · Streamlit · YAML
 
-## How I build
+## Sugar Game
 
-- **Model the real problem first.** Domain rules and invariants come before feature volume.
-- **Design failure modes explicitly.** Offline use, reconnects, permission boundaries, degraded storage and unsafe states are product behavior.
-- **Use evidence, not ceremony.** Automated tests, integration tests, security checks, real devices and release gates challenge assumptions.
-- **Keep boundaries enforceable.** Domain logic, persistence, infrastructure and authority stay separated so complexity remains controllable.
+An online, four-player Israeli Whist game with rooms, accounts, friends and leaderboards. It handles reconnects so players can recover their session after refreshing or losing their connection.
 
-## Current direction
+**Status:** Working multiplayer app. The server and client need refactoring, along with more automated tests for the game rules.
 
-Preparing to begin a B.Sc. in Electrical Engineering at Tel Aviv University in October 2026.
+[About the project](projects/sugar-game.md)
 
-Building deeper capability across **electrical engineering, product systems, automation and real-world technology**, with long-term interest in robotics, energy and physical systems.
+Node.js · Express · Socket.IO · PostgreSQL
 
-Production source repositories remain private where appropriate. The case studies above document what was built, the architecture, engineering decisions, limitations and current status without exposing credentials, private data or proprietary source.
+## How I work
+
+I work out the data model and main user flows first, then build and test in small steps. I pay particular attention to what happens when connections fail, users switch accounts or permissions change.
+
+I use Claude Code and Codex during development, and review changes against the product requirements and test results. The project pages cover the implementation choices and remaining work.
+
+The source repositories are private.
+
+*Updated October 2026.*
